@@ -1,0 +1,106 @@
+buildscript {
+    ext {
+        springBootVersion = "1.4.2.RELEASE"
+        jacksonVersion = "2.8.3"
+        sfl4jVersion = "1.7.16"
+
+        powerMockVersion = "1.6.6"
+        springfoxSwaggerVersion = "2.6.0"
+        validationApiVersion = "1.1.0.Final"
+        groovyVersion = "2.4+"
+        spockVersion = "1.0-groovy-2.4"
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
+
+task printDependencies(type: DependencyReportTask) {}
+
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'jacoco'
+    apply plugin: 'maven'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    version = "1.0-SNAPSHOT"
+
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+    }
+
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
+
+    jacoco {
+        toolVersion = "0.7.6.201602180812"
+    }
+
+    jacocoTestReport {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports after running tests."
+        additionalSourceDirs = files(sourceSets.main.allJava.srcDirs)
+
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.destination "${buildDir}/jacocoHtml"
+        }
+        afterEvaluate {
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(dir: it,
+                         exclude: ['**/*Dto.*', '**/*Exception.*', '**/*Constants.*'])
+            })
+        }
+    }
+
+    dependencies {
+
+        // ~ Third party dependencies
+        // =======================================================================================
+        compile "org.projectlombok:lombok:1.12.6"
+        compile "org.slf4j:slf4j-api:${sfl4jVersion}"
+        compile "javax.validation:validation-api:${validationApiVersion}"
+        compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+        compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+        compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jacksonVersion}"
+
+        compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+
+        compile "org.apache.commons:commons-lang3:3.5"
+
+        // ~ Test dependencies
+        // =======================================================================================
+
+        // Use the latest Groovy version for Spock testing
+        testCompile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+
+        // Spock dependencies
+        testCompile "org.spockframework:spock-core:${spockVersion}"
+        testCompile "org.spockframework:spock-spring:${spockVersion}"
+        testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+        testCompile "cglib:cglib:2.2"
+
+    }
+
+}

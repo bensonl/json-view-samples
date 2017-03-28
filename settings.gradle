@@ -1,0 +1,3 @@
+rootProject.name = 'json-view-samples'
+include 'sample-json-views'
+
