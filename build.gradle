@@ -7,7 +7,7 @@ buildscript {
         powerMockVersion = "1.6.6"
         springfoxSwaggerVersion = "2.6.0"
         validationApiVersion = "1.1.0.Final"
-        groovyVersion = "2.4.7"
+        groovyVersion = "2.4+"
         spockVersion = "1.0-groovy-2.4"
     }
     repositories {
@@ -38,6 +38,8 @@ subprojects {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+
+    version = "1.0-SNAPSHOT"
 
     repositories {
         jcenter()
@@ -93,7 +95,7 @@ subprojects {
         // Use the latest Groovy version for Spock testing
         testCompile "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
-        // Use the awesome Spock testing and specification framework even with Java
+        // Spock dependencies
         testCompile "org.spockframework:spock-core:${spockVersion}"
         testCompile "org.spockframework:spock-spring:${spockVersion}"
         testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
