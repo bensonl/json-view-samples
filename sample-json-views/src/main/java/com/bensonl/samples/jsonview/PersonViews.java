@@ -11,7 +11,11 @@ public class PersonViews {
 
     interface Siblings {}
 
-    interface Children {}
+    static class WithParents extends Default implements Parents {}
 
-    static class Family extends Default implements Parents, Siblings, Children {}
+    static class WithSiblings extends Default implements Siblings {}
+
+    // TODO: Exercise - implement a view for WithChildren
+    // TODO: Exercise - implement a WithFamily view that returns the person's information, his parents, siblings, and children
+
 }

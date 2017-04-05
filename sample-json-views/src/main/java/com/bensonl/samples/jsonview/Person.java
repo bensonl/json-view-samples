@@ -13,6 +13,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Person {
 
+   private Long id;
+
    @JsonView(PersonViews.Default.class)
    private String first;
    @JsonView(PersonViews.Default.class)
@@ -29,7 +31,5 @@ public class Person {
    @JsonView(PersonViews.Siblings.class)
    private List<Person> siblings;
 
-   @JsonView(PersonViews.Children.class)
-   private List<Person> children;
-
+   // TODO: Exercise - add children
 }
