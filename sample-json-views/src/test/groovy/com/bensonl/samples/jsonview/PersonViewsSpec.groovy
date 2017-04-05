@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import spock.lang.Shared
 import spock.lang.Specification
-import sun.security.provider.SHA
 
 /**
  * Created by bensonliu on 4/5/17.
  */
 @groovy.util.logging.Slf4j
-class PersonSpec extends Specification {
+class PersonViewsSpec extends Specification {
 
     def objectMapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
                                          .configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
