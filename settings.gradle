@@ -1,3 +1,4 @@
 rootProject.name = 'json-view-samples'
 include 'sample-json-views'
-
+include 'sample-json-views-persistence'
+include 'sample-static-json-views'

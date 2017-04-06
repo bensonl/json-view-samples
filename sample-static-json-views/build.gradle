@@ -1,0 +1,18 @@
+apply plugin: "net.ltgt.apt"
+apply plugin: 'java'
+apply plugin: "idea"
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+
+	// ~ Project Dependencies
+	// ====================================================================
+	compile project (":sample-json-views")
+	compile project (":sample-json-views-persistence")
+
+	// ~ Third Party Dependencies
+	// ====================================================================
+	// ~ Spring Dependencies
+	compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+}
