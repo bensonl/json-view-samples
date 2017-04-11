@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by bensonliu on 4/5/17.
@@ -29,7 +29,7 @@ public class Person {
    private Person mother;
 
    @JsonView(PersonViews.Siblings.class)
-   private List<Person> siblings;
+   private Set<Person> siblings;
 
    // TODO: Exercise - add children
 }

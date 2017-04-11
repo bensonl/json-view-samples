@@ -1,8 +1,12 @@
 buildscript {
     ext {
-        springBootVersion = "1.4.2.RELEASE"
+        springBootVersion = "1.5.2.RELEASE"
         jacksonVersion = "2.8.3"
         sfl4jVersion = "1.7.16"
+        lombokVersion = "1.16.16"
+        h2Version = "1.4.193"
+        hibernateValidatorVersion = "5.3.4.Final"
+        mapStructVersion = "1.2.0+"
 
         powerMockVersion = "1.6.6"
         springfoxSwaggerVersion = "2.6.0"
@@ -13,10 +17,14 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.10"
     }
 }
 
@@ -29,6 +37,7 @@ task printDependencies(type: DependencyReportTask) {}
 
 subprojects {
 
+    apply plugin: "net.ltgt.apt"
     apply plugin: 'java'
     apply plugin: 'groovy'
     apply plugin: 'eclipse'
@@ -68,26 +77,44 @@ subprojects {
         afterEvaluate {
             classDirectories = files(classDirectories.files.collect {
                 fileTree(dir: it,
-                         exclude: ['**/*Dto.*', '**/*Exception.*', '**/*Constants.*'])
+                         exclude: ['**/*Dto.*', '**/*Exception.*', '**/*Constants.*', '**/*Entity.*',
+                                   '**/mappers/*MapperImpl.*'])
             })
         }
+    }
+
+    compileJava {
+        options.compilerArgs = [
+                '-Amapstruct.suppressGeneratorTimestamp=true',
+                '-Amapstruct.suppressGeneratorVersionInfoComment=true',
+                '-Amapstruct.defaultComponentModel=spring'
+        ]
     }
 
     dependencies {
 
         // ~ Third party dependencies
         // =======================================================================================
-        compile "org.projectlombok:lombok:1.12.6"
+        compile "org.projectlombok:lombok:${lombokVersion}"
         compile "org.slf4j:slf4j-api:${sfl4jVersion}"
         compile "javax.validation:validation-api:${validationApiVersion}"
+
+        // ~ MapStruct dependencies
+        compile "org.mapstruct:mapstruct-jdk8:${mapStructVersion}"
+        compile "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+
+        // ~ Apache dependencies
+        compile "org.apache.commons:commons-lang3:3.5"
+
+        // ~ Jackson dependencies
         compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
         compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
         compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
         compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:${jacksonVersion}"
 
+        // ~ Spring dependencies
         compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
 
-        compile "org.apache.commons:commons-lang3:3.5"
 
         // ~ Test dependencies
         // =======================================================================================
@@ -101,6 +128,10 @@ subprojects {
         testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
         testCompile "cglib:cglib:2.2"
 
+        // ~ Annotation Processing
+        // =======================================================================================
+        apt "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+        apt "org.projectlombok:lombok:${lombokVersion}"
     }
 
 }

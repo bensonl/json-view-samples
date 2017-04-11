@@ -27,9 +27,9 @@ The **PersonViewsSpec** is a **Spock** specification which demonstrates the affe
 
 The following are exercises that you can complete to explore and learn more about using @JsonView annotations in your next project:
 
-* Try deserializing a Person using the Parents view.
+1. Try deserializing a Person using the Parents view.
 	* Compare this to when a Person is deserialized using the Withparents view.
-* Add children relationship to the Person class and define a WithChildren that includes a person's basic attributes and his children.
-* Define a WithFamily view that includes a person's basic attributes, his parents, his siblings, and his children.
-* Add grandparents to a Person
+2. Add children relationship to the Person class and define a WithChildren that includes a person's basic attributes and his children.
+3. Define a WithFamily view that includes a person's basic attributes, his parents, his siblings, and his children.
+4. Add grandparents to a Person
 	* what kind of views would you add now?

@@ -1,0 +1,19 @@
+apply plugin: "net.ltgt.apt"
+
+dependencies {
+
+	// ~ Project Dependencies
+	// =================================================================================
+	compile project (":sample-json-views")
+
+	// ~ Third Party Dependencies
+	// =================================================================================
+	compile "com.h2database:h2:${h2Version}"
+
+	compile "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
+
+	// ~ Spring Dependencies
+	// =================================================================================
+	compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+
+}
