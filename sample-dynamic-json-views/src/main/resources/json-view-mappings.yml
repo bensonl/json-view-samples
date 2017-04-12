@@ -1,0 +1,12 @@
+jsonViewMappings:
+  requestParameterName: "view"
+  mappings:
+    -
+      name: "default"
+      className: "com.bensonl.samples.jsonview.PersonViews$Default"
+    -
+      name: "parents"
+      className: "com.bensonl.samples.jsonview.PersonViews$WithParents"
+    -
+      name: "siblings"
+      className: "com.bensonl.samples.jsonview.PersonViews$WithSiblings"
