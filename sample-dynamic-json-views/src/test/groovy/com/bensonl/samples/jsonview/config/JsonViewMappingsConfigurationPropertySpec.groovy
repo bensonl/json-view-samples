@@ -1,5 +1,6 @@
 package com.bensonl.samples.jsonview.config
 
+import com.bensonl.samples.jsonview.PersonViews
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -21,7 +22,33 @@ class JsonViewMappingsConfigurationPropertySpec extends Specification {
 		then: "jsonViewMappings are parsed and loaded"
 			jsonViewMappings
 			jsonViewMappings.mappings.empty == false
-			jsonViewMappings.findMapping("parents")
+	}
+
+	def "validate findMappings method"() {
+		setup:
+			def viewName
+			def mapping
+
+		when: "viewName is null"
+			mapping = jsonViewMappings.findMapping(viewName)
+
+		then: "no mapping is returned"
+			mapping == null
+
+		when: "mapping does not exist for viewName"
+			viewName = "unmapped-view"
+			mapping = jsonViewMappings.findMapping(viewName)
+
+		then: "no mapping is returned"
+			mapping == null
+
+		when: "mapping exists"
+			viewName = "default"
+			mapping = jsonViewMappings.findMapping(viewName)
+
+		then: "mapping is returned"
+			mapping.name == viewName
+			mapping.className == PersonViews.Default.class.name
 
 	}
 }
